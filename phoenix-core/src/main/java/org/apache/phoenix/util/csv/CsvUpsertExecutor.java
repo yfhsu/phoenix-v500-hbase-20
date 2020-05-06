@@ -17,36 +17,30 @@
  */
 package org.apache.phoenix.util.csv;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.List;
-import java.util.Properties;
-
-import javax.annotation.Nullable;
-
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Function;
 import org.apache.commons.csv.CSVRecord;
-import org.apache.hadoop.hbase.util.Base64;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.apache.phoenix.expression.function.EncodeFormat;
 import org.apache.phoenix.query.QueryServices;
 import org.apache.phoenix.query.QueryServicesOptions;
 import org.apache.phoenix.schema.IllegalDataException;
-import org.apache.phoenix.schema.types.PBinary;
-import org.apache.phoenix.schema.types.PBoolean;
-import org.apache.phoenix.schema.types.PDataType;
+import org.apache.phoenix.schema.types.*;
 import org.apache.phoenix.schema.types.PDataType.PDataCodec;
-import org.apache.phoenix.schema.types.PTimestamp;
-import org.apache.phoenix.schema.types.PVarbinary;
 import org.apache.phoenix.util.ColumnInfo;
 import org.apache.phoenix.util.DateUtil;
 import org.apache.phoenix.util.UpsertExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Function;
+import javax.annotation.Nullable;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.Base64;
+import java.util.List;
+import java.util.Properties;
 
 /** {@link UpsertExecutor} over {@link CSVRecord}s. */
 public class CsvUpsertExecutor extends UpsertExecutor<CSVRecord, String> {
@@ -189,7 +183,7 @@ public class CsvUpsertExecutor extends UpsertExecutor<CSVRecord, String> {
                 Object object = null;
                 switch (format) {
                     case BASE64:
-                        object = Base64.decode(input);
+                        object = Base64.getDecoder().decode(input);
                         if (object == null) { throw new IllegalDataException(
                                 "Input: [" + input + "]  is not base64 encoded"); }
                         break;

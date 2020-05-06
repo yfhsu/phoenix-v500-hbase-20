@@ -18,24 +18,22 @@
 
 package org.apache.phoenix.util;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.fail;
-
-import java.sql.SQLException;
-import org.apache.hadoop.hbase.util.Base64;
-import java.util.Collection;
-import java.util.List;
-
+import com.google.common.collect.Lists;
 import org.apache.phoenix.schema.*;
-import org.apache.phoenix.schema.types.*;
 import org.apache.phoenix.schema.RowKeySchema.RowKeySchemaBuilder;
+import org.apache.phoenix.schema.types.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import com.google.common.collect.Lists;
-import org.mockito.Mockito;
+import java.sql.SQLException;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.fail;
 
 /*Test the getTenantIdBytes method in ScanUtil*/
 @RunWith(Parameterized.class)
@@ -201,7 +199,7 @@ public class TenantIdByteConversionTest {
 
         //Binary
         byte[] bytes = new byte[] {0, 1, 2, 3};
-        String byteString = new String( Base64.encodeBytes(bytes) );
+        String byteString = new String( Base64.getEncoder().encode(bytes) );
         testCases.add(new Object[] {
                 getDataSchema(PBinary.INSTANCE, SortOrder.getDefault()),
                 false,

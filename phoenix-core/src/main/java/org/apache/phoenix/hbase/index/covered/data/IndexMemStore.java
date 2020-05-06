@@ -17,9 +17,6 @@
  */
 package org.apache.phoenix.hbase.index.covered.data;
 
-import java.util.Iterator;
-import java.util.SortedSet;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.hbase.Cell;
@@ -34,6 +31,9 @@ import org.apache.phoenix.hbase.index.covered.KeyValueStore;
 import org.apache.phoenix.hbase.index.covered.LocalTableState;
 import org.apache.phoenix.hbase.index.scanner.ReseekableScanner;
 import org.apache.phoenix.util.PhoenixKeyValueUtil;
+
+import java.util.Iterator;
+import java.util.SortedSet;
 
 /**
  * Like the HBase {@link MemStore}, but without all that extra work around maintaining snapshots and
@@ -79,10 +79,10 @@ public class IndexMemStore implements KeyValueStore {
   private CellComparator comparator;
 
   public IndexMemStore() {
-    this(new CellComparatorImpl(){
+    this(new DelegateComparator(new CellComparatorImpl()){
         @Override
-        public int compare(Cell a, Cell b) {
-            return super.compare(a, b, true);
+        public int compare(Cell leftCell, Cell rightCell) {
+            return super.compare(leftCell, rightCell, true);
         }
     });
   }
