@@ -93,6 +93,11 @@ public class PhoenixRpcScheduler extends RpcScheduler {
     }
 
     @Override
+    public int getMetaPriorityQueueLength() {
+        return this.delegate.getMetaPriorityQueueLength();
+    }
+
+    @Override
     public CallQueueInfo getCallQueueInfo() {
         return delegate.getCallQueueInfo();
     }
