@@ -67,7 +67,7 @@
 
     <!-- Hadoop Versions -->
     <hbase.version>2.1.6</hbase.version>
-    <hadoop.version>3.1.1</hadoop.version>
+    <hadoop.version>3.2.3</hadoop.version>
 
     <!-- Dependency versions -->
     <commons-cli.version>1.4</commons-cli.version>
